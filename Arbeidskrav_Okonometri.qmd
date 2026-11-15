@@ -1,0 +1,79 @@
+---
+title: "Arbeidskrav_Okonometri"
+format: html
+editor: visual
+---
+```{r}
+#| message: false
+library(tidyverse)
+library(modelr)
+library(flextable)
+library(plm)
+library(vtable)
+library(rstatix)
+library(modelsummary)
+
+options(paged.print = FALSE)
+```
+
+```{r}
+load(file = 'eu0823.RData', verbose = TRUE)
+```
+**Oppgave 1**
+
+
+**Oppgave 2**
+
+
+**Oppgave 3**
+
+
+**Oppgave 4**
+
+
+**Oppgave 5**
+
+
+**Oppgave 6**
+
+
+**Oppgave 7**
+
+
+**Oppgave 8**
+
+
+**Oppgave 9**
+
+
+**Oppgave 10**
+
+
+**Oppgave 11**
+
+
+**Oppgave 12**
+
+
+**Oppgave 13**
+
+
+**Oppgave 14**
+
+
+**Oppgave 15**
+
+
+**Oppgave 16**
+
+
+**Oppgave 17**
+
+
+**Oppgave 18**
+
+
+**Oppgave 19**
+
+
+**Oppgave 20**
