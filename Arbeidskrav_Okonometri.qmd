@@ -192,6 +192,11 @@ Den tredje forskjellen er tidsperioden. Fitjar undersøker perioden 2009–2018,
 Samlet sett betyr disse forskjellene at våre resultater ikke nødvendigvis vil være identiske med Fitjars. Forskjeller i geografisk dekning, regioninndeling og tidsperiode kan påvirke både FoU-investeringene og de økonomiske sammenhengene vi finner. Derfor må vi ta hensyn til disse forskjellene når vi sammenligner våre analyser med Fitjar (2025).
 
 **Oppgave 10**
+```{r}
+eu0823 <- eu0823 |> 
+  filter(!geo %in% c("EL42", "EL62", "ES63", "ES64", "RO22"))
+```
+Vi mener det er fornuftig å droppe regionene EL42, EL62, Es63, ES64 og Ro22, fordi de har ekstreme eller lite pålitelige verdier. Ceuta (ES63) og Melilla (ES64) er små spanske byer på nordkysten av Afrika, med ekstrem befolkningstetthet (Density) og FoU-verdier som er konstante fra 2010, noe som tyder på utfylte data. Notio Aigaio (EL42) og Sud-Est (RO22) har privat FoU (priv_RD) på 0.01 i de fleste år. Slike verdier nær null kan gi ekstreme utslag når vi tar logaritmer eller regner vekstrater. Ulempen er at vi fjerner noen av regionene med minst FoU og det kan føre til at vi undervurderer de regionale forkjellene. Vi bør derfor sjekke at resultatene ikke endrer seg vesentlig når regionene er med.  
 
 **Oppgave 11**
 
