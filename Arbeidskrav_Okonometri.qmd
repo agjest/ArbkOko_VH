@@ -29,9 +29,9 @@ Studien bygger på data fra Eurostat for 200 europeiske NUTS2-regioner i periode
 
 Hovedproblemstillingen er om offentlig FoU-finansiering bidrar til regional utjevning, eller om midlene i større grad går til allerede økonomisk sterke regioner.
 
-Funnene viser at offentlige FoU-investeringer i stor grad konsentreres i regioner med høy økonomisk aktivitet, god tilgang på kompetanse og sterke forskningsmiljøer. Studien finner noe beta-konvergens, som betyr at regioner med lave FoU-investeringer til en viss grad tar igjen de rikere regionene. Samtidig finner Fitjar ingen sigma-konvergens for offentlige FoU-investeringer, noe som betyr at de samlede regionale forskjellene ikke blir mindre. For private FoU-investeringer finner han derimot tegn til både beta- og sigma-konvergens.
+Funnene viser at offentlige FoU-investeringer i stor grad konsentreres i regioner med høy økonomisk aktivitet, god tilgang på kompetanse og sterke forskningsmiljøer. Studien finner noe beta-konvergens, som betyr at regioner med lave FoU-investeringer i utgangspunktet har høyere vekst enn regioner med høye FoU-investeringer. Samtidig finner Fitjar ingen sigma-konvergens for offentlige FoU-investeringer, noe som betyr at de samlede regionale forskjellene ikke blir mindre. For private FoU-investeringer finner han derimot tegn til både beta- og sigma-konvergens.
 
-Konklusjonen er at offentlig FoU-finansiering ikke nødvendigvis bidrar til å redusere regionale forskjeller, men kan være med på å opprettholde eller forsterke dem.
+Konklusjonen er at offentlig FoU-finansiering ikke nødvendigvis bidrar til å redusere regionale forskjeller, men kan være med på å opprettholde eller forsterke dem. 
 
 <<<<<<< HEAD
 **Oppgave 2** NUTS er en forkortelse for "Nomenclature des Unitès Territoriales Statistiques". Oversatt på norsk blir det Nomenklatur for statistiske rettitorielle enheter. NUTS er en hierarkisk standard utviklet av EUs sttistikkbyrå Eurostat for å dele inn land i regionale enheter for statistiske formål. Hoverformålet er å sikre at regionalstatistikk som blant annet FoU-investeringer, arbeidsledighet og BNP er harmonisert og sammenlignbar på tvers av europeiske land. NUTS systemet er er delt inn i tre hovednivåer basert på befolkningsstørrelse. NUTS 1 er store sosioøkonomiske regioner, og har typisk befolkning på 3 til 7 millioner. NUTS 2 er det viktigste nivået for EUs regionalpolitikk og strukturfond, og har typsik mellom 800.000 til 3 millioner innbyggere. NUTS 3 er mindre regioner og har typisk befolkning på 150.000 og 800.000. Under NUTS 3 ligger LAU-nivået det refererer til kommuner og regnes ikke som en del av NUTS. I denne oppgaven bruker vi datasettet eu0823, det dekker 196 NUTS 2 regioner fordelt på 17 land i perioden 2008 til 2023. Det er NUTS 2 som brukes ettersom det er grunnlaget for EUs regionalpolitik og det er det nivået eurostat har best datadeknink. NUTS 2 er det mest brukte nivået i praksis fordi det gir den beste balansen mellom regional detaljgrad og sammenlignbar størrelse på tvers av land i Europa.
@@ -126,9 +126,69 @@ Korrelasjonsmatrise
 
 **Oppgave 7**
 
+```{r}
+#| label: tbl-regioner
+#| echo: true
+
+library(dplyr)
+
+# Beregn gjennomsnitt per region for 2008–2023
+regioner <- eu0823 |>
+  group_by(geo, name, country) |>
+  summarise(
+    GDP = mean(GDP, na.rm = TRUE),
+    Manuf = mean(Manuf, na.rm = TRUE),
+    Density = mean(Density, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+# BNP per innbygger
+regioner |> filter(is.finite(GDP)) |>
+  slice_max(GDP, n = 5, with_ties = FALSE)
+
+regioner |> filter(is.finite(GDP)) |>
+  slice_min(GDP, n = 5, with_ties = FALSE)
+
+# Industrisysselsetting
+regioner |> filter(is.finite(Manuf)) |>
+  slice_max(Manuf, n = 5, with_ties = FALSE)
+
+regioner |> filter(is.finite(Manuf)) |>
+  slice_min(Manuf, n = 5, with_ties = FALSE)
+
+# Befolkningstetthet
+regioner |> filter(is.finite(Density)) |>
+  slice_max(Density, n = 5, with_ties = FALSE)
+
+regioner |> filter(is.finite(Density)) |>
+  slice_min(Density, n = 5, with_ties = FALSE)
+```
+
+For å undersøke regionale forskjeller i BNP per innbygger (GDP), industrisysselsetting (Manuf) og befolkningstetthet (Density) har vi funnet de fem NUTS2-regionene med høyest og lavest verdi for hver variabel. Vi har brukt gjennomsnittet for perioden 2008–2023.
+
+For BNP per innbygger finner vi de høyeste verdiene i Bratislava, București, Praha, Budapest og Warszawa. Dette er hovedstadsregioner med høy økonomisk aktivitet. De laveste verdiene finner vi i Calabria, Sicilia, Nord-Est i Romania, Severozapaden i Bulgaria og Nord-Ungarn. Dette er regioner med relativt svak økonomisk utvikling.
+
+For industrisysselsetting finner vi de høyeste verdiene i Lombardia, Stuttgart, Cataluña, Veneto og Śląskie, som alle er viktige industriregioner. De laveste verdiene finner vi i Melilla, Ceuta, Ionia Nisia, Voreio Aigaio og Valle d'Aosta. Dette er mindre regioner med begrenset industriell aktivitet.
+
+For befolkningstetthet finner vi de høyeste verdiene i Melilla, Wien, Ceuta, Berlin og Budapest. Dette er tett befolkede byområder. De laveste verdiene finner vi i Övre Norrland, Mellersta Norrland, Pohjois- ja Itä-Suomi, Norra Mellansverige og Länsi-Suomi. Dette er store områder i Sverige og Finland med spredt bosetting.
+
+Samlet sett virker resultatene fornuftige. Hovedstadsregioner har ofte høyt BNP per innbygger, industriregioner har høy industrisysselsetting, og større byområder har høy befolkningstetthet. Industrisysselsettingen måles i absolutte tall, noe som gjør at regionenes størrelse også påvirker resultatene.
+
 **Oppgave 8**
 
+Fitjar (2025) benytter data fra Eurostat for 22 europeiske land og 200 regioner i perioden 2009–2018. Studien dekker dermed 10 år. De fleste regionene er på NUTS2-nivå, mens Belgia, Tyskland og Storbritannia er representert på NUTS1-nivå
+
 **Oppgave 9**
+
+Vårt datamateriale består av 17 europeiske land og 196 NUTS2-regioner i perioden 2008–2023, altså 16 år og totalt 3136 observasjoner. Fitjar (2025) bruker derimot 22 land og 200 regioner i perioden 2009–2018, som tilsvarer 10 år.
+
+Den første forskjellen er antall land og regioner. Vårt datasett inneholder 5 færre land og 4 færre regioner enn Fitjars studie. En viktig årsak er at Storbritannia ikke er inkludert i vårt datamateriale, ettersom britiske data har blitt vanskeligere tilgjengelige etter Brexit. Datasettene dekker derfor ikke nøyaktig de samme geografiske områdene.
+
+Den andre forskjellen er regioninndelingen. Vårt datasett bruker NUTS2-regioner, mens Fitjar også benytter NUTS1-nivå for Belgia, Tyskland og Storbritannia. NUTS1-regioner dekker større geografiske områder enn NUTS2-regioner. Dette kan påvirke resultatene fordi større regioner kan skjule økonomiske forskjeller mellom mindre områder.
+
+Den tredje forskjellen er tidsperioden. Fitjar undersøker perioden 2009–2018, mens vårt datasett dekker 2008–2023. Vi har dermed seks flere år med observasjoner og inkluderer nyere økonomisk utvikling, blant annet perioden under og etter koronapandemien.
+
+Samlet sett betyr disse forskjellene at våre resultater ikke nødvendigvis vil være identiske med Fitjars. Forskjeller i geografisk dekning, regioninndeling og tidsperiode kan påvirke både FoU-investeringene og de økonomiske sammenhengene vi finner. Derfor må vi ta hensyn til disse forskjellene når vi sammenligner våre analyser med Fitjar (2025).
 
 **Oppgave 10**
 
