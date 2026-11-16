@@ -33,22 +33,13 @@ Funnene viser at offentlige FoU-investeringer i stor grad konsentreres i regione
 
 Konklusjonen er at offentlig FoU-finansiering ikke nødvendigvis bidrar til å redusere regionale forskjeller, men kan være med på å opprettholde eller forsterke dem. 
 
-<<<<<<< HEAD
-**Oppgave 2** NUTS er en forkortelse for "Nomenclature des Unitès Territoriales Statistiques". Oversatt på norsk blir det Nomenklatur for statistiske rettitorielle enheter. NUTS er en hierarkisk standard utviklet av EUs sttistikkbyrå Eurostat for å dele inn land i regionale enheter for statistiske formål. Hoverformålet er å sikre at regionalstatistikk som blant annet FoU-investeringer, arbeidsledighet og BNP er harmonisert og sammenlignbar på tvers av europeiske land. NUTS systemet er er delt inn i tre hovednivåer basert på befolkningsstørrelse. NUTS 1 er store sosioøkonomiske regioner, og har typisk befolkning på 3 til 7 millioner. NUTS 2 er det viktigste nivået for EUs regionalpolitikk og strukturfond, og har typsik mellom 800.000 til 3 millioner innbyggere. NUTS 3 er mindre regioner og har typisk befolkning på 150.000 og 800.000. Under NUTS 3 ligger LAU-nivået det refererer til kommuner og regnes ikke som en del av NUTS. I denne oppgaven bruker vi datasettet eu0823, det dekker 196 NUTS 2 regioner fordelt på 17 land i perioden 2008 til 2023. Det er NUTS 2 som brukes ettersom det er grunnlaget for EUs regionalpolitik og det er det nivået eurostat har best datadeknink. NUTS 2 er det mest brukte nivået i praksis fordi det gir den beste balansen mellom regional detaljgrad og sammenlignbar størrelse på tvers av land i Europa.
-=======
+
 **Oppgave 2**
-<<<<<<< HEAD
 
-**Oppgave 3**
-
-**Oppgave 4**
-
-**Oppgave 5**
-=======
 NUTS er en forkortelse for "Nomenclature des Unitès Territoriales Statistiques". Oversatt på norsk blir det Nomenklatur for statistiske rettitorielle enheter. NUTS er en hierarkisk standard utviklet av EUs sttistikkbyrå Eurostat for å dele inn land i regionale enheter for statistiske formål. Hoverformålet er å sikre at regionalstatistikk som blant annet FoU-investeringer, arbeidsledighet og BNP er harmonisert og sammenlignbar på tvers av europeiske land. 
 NUTS systemet er er delt inn i tre hovednivåer basert på befolkningsstørrelse. NUTS 1 er store sosioøkonomiske regioner, og har typisk befolkning på 3 til 7 millioner. NUTS 2 er det viktigste nivået for EUs regionalpolitikk og strukturfond, og har typsik mellom 800.000 til 3 millioner innbyggere. NUTS 3 er mindre regioner og har typisk befolkning på 150.000 og 800.000. Under NUTS 3 ligger LAU-nivået det refererer til kommuner og regnes ikke som en del av NUTS.
 I denne oppgaven bruker vi datasettet eu0823, det dekker 196 NUTS 2 regioner fordelt på 17 land i perioden 2008 til 2023. Det er NUTS 2 som brukes ettersom det er grunnlaget for  EUs regionalpolitik og det er det nivået eurostat har best datadeknink. NUTS 2 er det mest brukte nivået i praksis fordi det gir den beste balansen mellom regional detaljgrad og sammenlignbar størrelse på tvers av land i Europa. 
->>>>>>> ffa34f299b7b3bcbf83adfef4d09cd52bcf2df9e
+
 
 **Oppgave 3**
 
@@ -93,7 +84,6 @@ eu0823 |>
 
 Korrelasjonsmatrisen vår for 2009 samsvarer godt med tabell A.5 i @fitjar2025 for alle variablene unntatt industrisysselsetting (Manuf). Fitjars tabell har i tillegg to vekstvariabler for FoU, som ikke finnes i vår tabell. Korrelasjonen mellom offentlig FoU (pub_RD) og privat FoU (priv_RD) er 0.50 hos oss og 0.52 i artikkelen. Hovedstadsregionen (Capital) og BNP per innbygger (GDP_log) korrelerer 0.66 mot 0.65 og hovedstadregion og befolkningstetthet (Density_log) korrelerer 0.45 i begge tabellene. Også korrelasjonene mellom offentlig FoU og utdanningsnivå (edu) og mellom privat FoU og utdanningsnivå er nesten identiske. De fleste andre korrelasjoner avviker med under 0.07 og utdanningsnivå korrelerer noe svakere med de andre variablene hos oss enn i artikkelen. Industrisysselsetting skiller seg derimot klart ut. I Fitjar er den negativt korrelert med offentlig FoU (-0.44), hovedstadsregion (-0.30), BNP (-0.16), befolkningstetthet (-0.09) og utdanningsnivå (-0.15). Hos oss er de samme korrelasjonene omtrent null eller positive (-0.005, 0.001, 0.22, 0.31 og 0.16). Dette henger sammen med at industrisysselsetting i vårt datasett måler antall sysselsatte og ikke andel, slik vi så i den deskriptive statistikken. Store regioner har flere industriarbeidere og er ofte tettere befolket og rikere, noe som gir positive korrelasjoner der Fitjar finner negative. Samlet sett ser dataene ut til å samsvare godt med originalartikkelen, men industrisysselsetting er ikke direkte sammenlignbar.
 
-<<<<<<< HEAD
 **Oppgave 5** 
 
 Korrelasjonsmatrise 2008 - 2023
@@ -116,11 +106,6 @@ eu0823 |>
 ```
 
 Korrelasjonsmatrisen for hele perioden 2008-2023 samsvarer ikke bedre med tabell A.5 i @fitjar2025a enn matrisen for 2009. Det mest tydelige er at korrelasjonene som involverer FoU-variablene, blir mindre like orginalen. Korrelasjonen mellom offentlig FoU (pub_RD) og privat FoU (priv_RD) faller fra 0.50 til 0.41, mot 0.52 i artikkelen. Korrelasjonen mellom privat FoU og BNP per innbygger (GDP_log) øker fra 0.28 til 0.34, mot 0.23 hos Fitjar. Noen korrelasjoner kommer likevel nærmere orginalen, særlig de som gjelder utdanningsnivå (edu). Utdanningsnivå og hovedstadsregion (Capital) korrelerer nå 0.69 mot 0.70 og utdanningsnivå og BNP korrelerer 0.72 mot 0.69. Industrisysselsetting (Manuf) avviker fortsatt like mye, fordi variabelen måler antall sysselsatte og ikke andel. At 2009-matrisen samsvarer best, er som forventet, siden Fitjars tabell gjelder nettopp 2009. Når vi tar med alle årene, påvrikes korrelasjonene også av endringer over tid, f.eks. at FoU-innsatsen i regionene har utviklet seg ulikt etter 2009. Samlet sett gir altså 2009-utvalget den beste sammenligningen med originalartikkelen. 
-=======
-**Oppgave 5**
-Korrelasjonsmatrise
->>>>>>> origin/main
->>>>>>> ffa34f299b7b3bcbf83adfef4d09cd52bcf2df9e
 
 **Oppgave 6**
 
