@@ -2,7 +2,9 @@
 title: "Arbeidskrav_Okonometri"
 format: html
 editor: visual
+bibliography: references.bib
 ---
+
 ```{r}
 #| message: false
 library(tidyverse)
@@ -19,61 +21,60 @@ options(paged.print = FALSE)
 ```{r}
 load(file = 'eu0823.RData', verbose = TRUE)
 ```
-**Oppgave 1**
 
+**Oppgave 1**
 
 **Oppgave 2**
 
-
 **Oppgave 3**
 
+```{r}
+#| label: tbl-deskriptiv
+#| tbl-cap: "Beskrivende statistikk"
+
+eu0823 |>
+  mutate(
+    GDP_log     = log(GDP),
+    Density_log = log(Density)
+  ) |>
+  select(pub_RD, priv_RD, Capital, GDP_log, Manuf, Density_log, edu) |>
+  st(out = "return", digits = 3) |>
+  flextable() |>
+  autofit()
+```
+
+Datamaterialet vårt ligner @fitjar2025, men det er ikke identisk. Vi har 3136 observasjoner mot 2000 i orginalartikkelen, så utvalget omfatter trolig flere regioner eller år. BNP per innbygger (GDP_log) er nesten identisk med orginalen, med samme gjennomsnitt (-0.084) og standardavvik (0.255). Befolkningstetthet (Density_log) har omtrent samme nivå og spredning (4.85 mot 4.72). Hovedstadsregion (Capital) og utdanningsnivå (edu) har også nesten likt gjennomsnitt, men utdanningsnivået varierer mer hos oss (-20.2 til 26.8 mot -10.8 til 18.9), noe som passer med at utvalget er større. Offentlig FoU (pub_RD) og privat FoU (priv_RD) er oppgitt uten log-transformasjon og har derfor høyere verdier enn i artikkelen. Industrisysselsetting (Manuf) har et rimelig gjennomsnitt (16.5 mot 17.7). Samlet sett er datamaterialet godt sammenlignbart med orginalartikkelens, men vi har noe større spredning og flere ekstreme verdier.
 
 **Oppgave 4**
 
-
 **Oppgave 5**
-
 
 **Oppgave 6**
 
-
 **Oppgave 7**
-
 
 **Oppgave 8**
 
-
 **Oppgave 9**
-
 
 **Oppgave 10**
 
-
 **Oppgave 11**
-
 
 **Oppgave 12**
 
-
 **Oppgave 13**
-
 
 **Oppgave 14**
 
-
 **Oppgave 15**
-
 
 **Oppgave 16**
 
-
 **Oppgave 17**
-
 
 **Oppgave 18**
 
-
 **Oppgave 19**
-
 
 **Oppgave 20**
