@@ -3,6 +3,7 @@ title: "Arbeidskrav_Okonometri"
 format: html
 editor: visual
 ---
+
 ```{r}
 #| message: false
 library(tidyverse)
@@ -19,61 +20,53 @@ options(paged.print = FALSE)
 ```{r}
 load(file = 'eu0823.RData', verbose = TRUE)
 ```
+
 **Oppgave 1**
+Fitjar (2025) undersøker om offentlige investeringer i forskning og utvikling (FoU) bidrar til å redusere eller forsterke økonomiske forskjeller mellom europeiske regioner.
+
+Studien bygger på data fra Eurostat for 200 europeiske NUTS2-regioner i perioden 2009–2018. Fitjar sammenligner offentlige og private FoU-investeringer og undersøker hvordan disse fordeler seg mellom regioner med ulik økonomisk utvikling.
+
+Hovedproblemstillingen er om offentlig FoU-finansiering bidrar til regional utjevning, eller om midlene i større grad går til allerede økonomisk sterke regioner.
+
+Funnene viser at offentlige FoU-investeringer i stor grad konsentreres i regioner med høy økonomisk aktivitet, god tilgang på kompetanse og sterke forskningsmiljøer. Studien finner noe beta-konvergens, som betyr at regioner med lave FoU-investeringer til en viss grad tar igjen de rikere regionene. Samtidig finner Fitjar ingen sigma-konvergens for offentlige FoU-investeringer, noe som betyr at de samlede regionale forskjellene ikke blir mindre. For private FoU-investeringer finner han derimot tegn til både beta- og sigma-konvergens.
+
+Konklusjonen er at offentlig FoU-finansiering ikke nødvendigvis bidrar til å redusere regionale forskjeller, men kan være med på å opprettholde eller forsterke dem.
 
 
 **Oppgave 2**
 
-
 **Oppgave 3**
-
 
 **Oppgave 4**
 
-
 **Oppgave 5**
-
 
 **Oppgave 6**
 
-
 **Oppgave 7**
-
 
 **Oppgave 8**
 
-
 **Oppgave 9**
-
 
 **Oppgave 10**
 
-
 **Oppgave 11**
-
 
 **Oppgave 12**
 
-
 **Oppgave 13**
-
 
 **Oppgave 14**
 
-
 **Oppgave 15**
-
 
 **Oppgave 16**
 
-
 **Oppgave 17**
-
 
 **Oppgave 18**
 
-
 **Oppgave 19**
-
 
 **Oppgave 20**
