@@ -22,7 +22,9 @@ options(paged.print = FALSE)
 load(file = 'eu0823.RData', verbose = TRUE)
 ```
 
-**Oppgave 1** Fitjar (2025) undersøker om offentlige investeringer i forskning og utvikling (FoU) bidrar til å redusere eller forsterke økonomiske forskjeller mellom europeiske regioner.
+**Oppgave 1**
+
+@fitjar2025 undersøker om offentlige investeringer i forskning og utvikling (FoU) bidrar til å redusere eller forsterke økonomiske forskjeller mellom europeiske regioner.
 
 Studien bygger på data fra Eurostat for 200 europeiske NUTS2-regioner i perioden 2009–2018. Fitjar sammenligner offentlige og private FoU-investeringer og undersøker hvordan disse fordeler seg mellom regioner med ulik økonomisk utvikling.
 
@@ -34,7 +36,7 @@ Konklusjonen er at offentlig FoU-finansiering ikke nødvendigvis bidrar til å r
 
 **Oppgave 2**
 
-NUTS er en forkortelse for "Nomenclature des Unitès Territoriales Statistiques". Oversatt på norsk blir det Nomenklatur for statistiske rettitorielle enheter. NUTS er en hierarkisk standard utviklet av EUs sttistikkbyrå Eurostat for å dele inn land i regionale enheter for statistiske formål. Hoverformålet er å sikre at regionalstatistikk som blant annet FoU-investeringer, arbeidsledighet og BNP er harmonisert og sammenlignbar på tvers av europeiske land. NUTS systemet er er delt inn i tre hovednivåer basert på befolkningsstørrelse. NUTS 1 er store sosioøkonomiske regioner, og har typisk befolkning på 3 til 7 millioner. NUTS 2 er det viktigste nivået for EUs regionalpolitikk og strukturfond, og har typsik mellom 800.000 til 3 millioner innbyggere. NUTS 3 er mindre regioner og har typisk befolkning på 150.000 og 800.000. Under NUTS 3 ligger LAU-nivået det refererer til kommuner og regnes ikke som en del av NUTS. I denne oppgaven bruker vi datasettet eu0823, det dekker 196 NUTS 2 regioner fordelt på 17 land i perioden 2008 til 2023. Det er NUTS 2 som brukes ettersom det er grunnlaget for EUs regionalpolitik og det er det nivået eurostat har best datadeknink. NUTS 2 er det mest brukte nivået i praksis fordi det gir den beste balansen mellom regional detaljgrad og sammenlignbar størrelse på tvers av land i Europa.
+NUTS er en forkortelse for "Nomenclature des Unitès Territoriales Statistiques". Oversatt på norsk blir det Nomenklatur for statistiske rettitorielle enheter. NUTS er en hierarkisk standard utviklet av EUs stistikkbyrå Eurostat for å dele inn land i regionale enheter for statistiske formål. Hoverdformålet er å sikre at regionalstatistikk som blant annet FoU-investeringer, arbeidsledighet og BNP er harmonisert og sammenlignbar på tvers av europeiske land. NUTS systemet er er delt inn i tre hovednivåer basert på befolkningsstørrelse. NUTS 1 er store sosioøkonomiske regioner, og har typisk befolkning på 3 til 7 millioner. NUTS 2 er det viktigste nivået for EUs regionalpolitikk og strukturfond, og har typsisk mellom 800.000 til 3 millioner innbyggere. NUTS 3 er mindre regioner og har typisk befolkning på 150.000 og 800.000. Under NUTS 3 ligger LAU-nivået det refererer til kommuner og regnes ikke som en del av NUTS. I denne oppgaven bruker vi datasettet eu0823, det dekker 196 NUTS 2 regioner fordelt på 17 land i perioden 2008 til 2023. Det er NUTS 2 som brukes ettersom det er grunnlaget for EUs regionalpolitikk og det er det nivået eurostat har best datateknink. NUTS 2 er det mest brukte nivået i praksis fordi det gir den beste balansen mellom regional detaljgrad og sammenlignbar størrelse på tvers av land i Europa.
 
 **Oppgave 3**
 
@@ -102,13 +104,13 @@ eu0823 |>
   autofit()
 ```
 
-Korrelasjonsmatrisen for hele perioden 2008-2023 samsvarer ikke bedre med tabell A.5 i @fitjar2025a enn matrisen for 2009. Det mest tydelige er at korrelasjonene som involverer FoU-variablene, blir mindre like orginalen. Korrelasjonen mellom offentlig FoU (pub_RD) og privat FoU (priv_RD) faller fra 0.50 til 0.41, mot 0.52 i artikkelen. Korrelasjonen mellom privat FoU og BNP per innbygger (GDP_log) øker fra 0.28 til 0.34, mot 0.23 hos Fitjar. Noen korrelasjoner kommer likevel nærmere orginalen, særlig de som gjelder utdanningsnivå (edu). Utdanningsnivå og hovedstadsregion (Capital) korrelerer nå 0.69 mot 0.70 og utdanningsnivå og BNP korrelerer 0.72 mot 0.69. Industrisysselsetting (Manuf) avviker fortsatt like mye, fordi variabelen måler antall sysselsatte og ikke andel. At 2009-matrisen samsvarer best, er som forventet, siden Fitjars tabell gjelder nettopp 2009. Når vi tar med alle årene, påvrikes korrelasjonene også av endringer over tid, f.eks. at FoU-innsatsen i regionene har utviklet seg ulikt etter 2009. Samlet sett gir altså 2009-utvalget den beste sammenligningen med originalartikkelen.
+Korrelasjonsmatrisen for hele perioden 2008-2023 samsvarer ikke bedre med tabell A.5 i @fitjar2025 enn matrisen for 2009. Det mest tydelige er at korrelasjonene som involverer FoU-variablene, blir mindre like originalen. Korrelasjonen mellom offentlig FoU (pub_RD) og privat FoU (priv_RD) faller fra 0.50 til 0.41, mot 0.52 i artikkelen. Korrelasjonen mellom privat FoU og BNP per innbygger (GDP_log) øker fra 0.28 til 0.34, mot 0.23 hos Fitjar. Noen korrelasjoner kommer likevel nærmere originalen, særlig de som gjelder utdanningsnivå (edu). Utdanningsnivå og hovedstadsregion (Capital) korrelerer nå 0.69 mot 0.70 og utdanningsnivå og BNP korrelerer 0.72 mot 0.69. Industrisysselsetting (Manuf) avviker fortsatt like mye, fordi variabelen måler antall sysselsatte og ikke andel. At 2009-matrisen samsvarer best, er som forventet, siden Fitjars tabell gjelder nettopp 2009. Når vi tar med alle årene, påvirkes korrelasjonene også av endringer over tid, f.eks. at FoU-innsatsen i regionene har utviklet seg ulikt etter 2009. Samlet sett gir altså 2009-utvalget den beste sammenligningen med originalartikkelen.
 
 **Oppgave 6**
 
 @fitjar2025 bruker data fra Eurostat for variablene GDP, Manuf og Density. De inngår som forklaringsvariabler i modellen for offentlig FoU-finansiering som andel som regionens BNP.
 
-GDP/BNP er forkortelse for bruttonasjonaltprodukt og måler regionens økonomiske utvikling. Den er definert som logaritmen til regionens BNP per innbygger som andel av landets BNP per innbygger (*log GDP per capita, share of national average*). Det variabelen viser er altså hvor rik en region er i forhold til landsgjennomsnittet, men ikke i absolutte tall. Regionene over gjennomsnittet får positive verdier, og regioner under får negative verdier.
+GDP/BNP er forkortelse for bruttonasjonalprodukt og måler regionens økonomiske utvikling. Den er definert som logaritmen til regionens BNP per innbygger som andel av landets BNP per innbygger (*log GDP per capita, share of national average*). Det variabelen viser er altså hvor rik en region er i forhold til landsgjennomsnittet, men ikke i absolutte tall. Regionene over gjennomsnittet får positive verdier, og regioner under får negative verdier.
 
 Manus måler regionens næringsstruktur. Den blir definert som andelen av personer i alderen 15-74 år som arbeider innen industri- og produksjonssektoren (NACE-kode B-E), oppgitt i prosent.
 
@@ -166,11 +168,11 @@ Samlet sett virker resultatene fornuftige. Hovedstadsregioner har ofte høyt BNP
 
 **Oppgave 8**
 
-Fitjar (2025) benytter data fra Eurostat for 22 europeiske land og 200 regioner i perioden 2009–2018. Studien dekker dermed 10 år. De fleste regionene er på NUTS2-nivå, mens Belgia, Tyskland og Storbritannia er representert på NUTS1-nivå
+@fitjar2025 benytter data fra Eurostat for 22 europeiske land og 200 regioner i perioden 2009–2018. Studien dekker dermed 10 år. De fleste regionene er på NUTS2-nivå, mens Belgia, Tyskland og Storbritannia er representert på NUTS1-nivå
 
 **Oppgave 9**
 
-Vårt datamateriale består av 17 europeiske land og 196 NUTS2-regioner i perioden 2008–2023, altså 16 år og totalt 3136 observasjoner. Fitjar (2025) bruker derimot 22 land og 200 regioner i perioden 2009–2018, som tilsvarer 10 år.
+Vårt datamateriale består av 17 europeiske land og 196 NUTS2-regioner i perioden 2008–2023, altså 16 år og totalt 3136 observasjoner. @fitjar2025 bruker derimot 22 land og 200 regioner i perioden 2009–2018, som tilsvarer 10 år.
 
 Den første forskjellen er antall land og regioner. Vårt datasett inneholder 5 færre land og 4 færre regioner enn Fitjars studie. En viktig årsak er at Storbritannia ikke er inkludert i vårt datamateriale, ettersom britiske data har blitt vanskeligere tilgjengelige etter Brexit. Datasettene dekker derfor ikke nøyaktig de samme geografiske områdene.
 
@@ -178,7 +180,7 @@ Den andre forskjellen er regioninndelingen. Vårt datasett bruker NUTS2-regioner
 
 Den tredje forskjellen er tidsperioden. Fitjar undersøker perioden 2009–2018, mens vårt datasett dekker 2008–2023. Vi har dermed seks flere år med observasjoner og inkluderer nyere økonomisk utvikling, blant annet perioden under og etter koronapandemien.
 
-Samlet sett betyr disse forskjellene at våre resultater ikke nødvendigvis vil være identiske med Fitjars. Forskjeller i geografisk dekning, regioninndeling og tidsperiode kan påvirke både FoU-investeringene og de økonomiske sammenhengene vi finner. Derfor må vi ta hensyn til disse forskjellene når vi sammenligner våre analyser med Fitjar (2025).
+Samlet sett betyr disse forskjellene at våre resultater ikke nødvendigvis vil være identiske med Fitjars. Forskjeller i geografisk dekning, regioninndeling og tidsperiode kan påvirke både FoU-investeringene og de økonomiske sammenhengene vi finner. Derfor må vi ta hensyn til disse forskjellene når vi sammenligner våre analyser med @fitjar2025.
 
 **Oppgave 10**
 
@@ -230,11 +232,11 @@ modelsummary(
 )
 ```
 
-Resultetene våre samsvarer godt med Table 1 i @fitjar2025b. Tabellene bruker ulike signifikansnivåer, så vi sammenligner faktiske p-verdier. BNP per innbygger (mLogGDP) følger samme mønster som hos Fitjar: den er positiv og signifikant i modell 1-3, insignifikant når hovedstadregionen (mCapital) tas med og negativ og signifikant når utdanningsnivå (mEdu) kommer inn i modell 7. Hovedstadsregion, utdanningsnivå og befolkningtetthet (mLogDens) har også samme fortegn og signifikans som hos Fitjar. Privat FoU (mLogPrivRD) er positiv, men langt svakere enn hos Fitjar og industrisysselsetting (mManuf) er insignifikant. Det siste skyldes trolig at variabelen hos oss måler antall sysselsatte og ikke andel. Som Fitjar tolker vi funnene slik at rike regioner får mer offentlig FoU fordi de ofte er hovedstadregioner med høyt utdanningsnivå og universiteter. Når vi kontrollerer for utdanningsnivå, får rike regioner faktisk mindre offentlig FoU som andel av BNP.
+Resultatene våre samsvarer godt med Table 1 i @fitjar2025. Tabellene bruker ulike signifikansnivåer, så vi sammenligner faktiske p-verdier. BNP per innbygger (mLogGDP) følger samme mønster som hos Fitjar: den er positiv og signifikant i modell 1-3, insignifikant når hovedstadregionen (mCapital) tas med og negativ og signifikant når utdanningsnivå (mEdu) kommer inn i modell 7. Hovedstadsregion, utdanningsnivå og befolkningtetthet (mLogDens) har også samme fortegn og signifikans som hos Fitjar. Privat FoU (mLogPrivRD) er positiv, men langt svakere enn hos Fitjar og industrisysselsetting (mManuf) er signifikant. Det siste skyldes trolig at variabelen hos oss måler antall sysselsatte og ikke andel. Som Fitjar tolker vi funnene slik at rike regioner får mer offentlig FoU fordi de ofte er hovedstadregioner med høyt utdanningsnivå og universiteter. Når vi kontrollerer for utdanningsnivå, får rike regioner faktisk mindre offentlig FoU som andel av BNP.
 
 **Oppgave 12**
 
-Residualplottet viser ingen tydelige tegn heteroskedastisitet. Spredningen av residualene ser omtrent lik ut over hele spennet av predikerte verdier og fallet i den røde linjen til høyre skyldes noen få obervasjoner. Den støttende regresjonen bekrefter dette: verken predikerte verdier eller predikerte verdier i andre er signifikante og F-testen gir p = 0.32. Vi har derfor ikke grunnlag for å si at modellen har heteroskedastisitet og robuste standardfeil er ikke strengt nødvendig. Siden dette er tverrsnittdata for regioner av svært ulik størrelse, kan det likevel være lurt å bruke robuste standardfeil som en kontroll. Endres ikke signifikansen, styrker det resultatene.
+Residualplottet viser ingen tydelige tegn heteroskedastisitet. Spredningen av residualene ser omtrent lik ut over hele spennet av predikerte verdier og fallet i den røde linjen til høyre skyldes noen få observasjoner. Den støttende regresjonen bekrefter dette: verken predikerte verdier eller predikerte verdier i andre er signifikante og F-testen gir p = 0.32. Vi har derfor ikke grunnlag for å si at modellen har heteroskedastisitet og robuste standardfeil er ikke strengt nødvendig. Siden dette er tverrsnittdata for regioner av svært ulik størrelse, kan det likevel være lurt å bruke robuste standardfeil som en kontroll. Endres ikke signifikansen, styrker det resultatene.
 
 **Oppgave 13**
 
@@ -297,7 +299,7 @@ modelsummary::modelsummary(
  
 ```
 
-Resultatene våre samsvarer med table 2 i @fitjar2025. Koeffsienten for offentlig FoU i 2009 (logPubRD_2009) er negativ og signifikan i begge modellene, bådehos oss og hos Fitjar. Det tyder på konvergens: regioner med lite offentlig FoU i startåret har hatt raskere vekst etterpå. Hos oss er effekten noe sterkere (-0.011 og -0.016 mot -0.006 og -0.010). Det kan skyldes at vi ser på en lengre periode (2009-2023 mot 2009-2018) og et annet utvalg av land. I begge tabellene blir koeffisienten mer negativ og R\^2 øker når vi kontrollerer for land. Det viser at konvergensen også skjer innenfor land. Konstantleddet er insignifikant hos oss, men positiv og signifikant hos Fitjar. Det spiller liten rolle for tolkningen.
+Resultatene våre samsvarer med table 2 i @fitjar2025. Koeffisienten for offentlig FoU i 2009 (logPubRD_2009) er negativ og signifikant i begge modellene, både hos oss og hos Fitjar. Det tyder på konvergens: regioner med lite offentlig FoU i startåret har hatt raskere vekst etterpå. Hos oss er effekten noe sterkere (-0.011 og -0.016 mot -0.006 og -0.010). Det kan skyldes at vi ser på en lengre periode (2009-2023 mot 2009-2018) og et annet utvalg av land. I begge tabellene blir koeffisienten mer negativ og R\^2 øker når vi kontrollerer for land. Det viser at konvergensen også skjer innenfor land. Konstantleddet er insignifikant hos oss, men positiv og signifikant hos Fitjar. Det spiller liten rolle for tolkningen.
 
 **Oppgave 15**
 
@@ -343,7 +345,7 @@ modelsummary::modelsummary(
 
 ```
 
-For privat FoU finner vi også konvergens. Koeffisienten for privat FoU i 2009 (logPrivRD_2009) er negativ og sterkt signifikant i begge modellene (-0.031 uten og -0.018 med landdummyer), i tråd med Table 2 i @fitjar2025 (-0.017 og -0.010). Regioner med lite privat FoU i 2009 har altså hatt raskere vekst frem til 2023. Effekten er sterkere hos oss enn hos fitjar, noe som kan skyldes den lengre perioden og det andre utvalget av land. Som hos Fitjar blir koeffisienten omtrent hvlvert når vi kontrollerer for land. En stor del av konvergensen skjer altså mellom land, for eksempel ved at Øst-Europa tar igjen Vest-Europa, men den er fortsatt signifikant innenfor land. Konvergensen er sterkete for privat enn for offentlig FoU, både hos oss og hos Fitjar.
+For privat FoU finner vi også konvergens. Koeffisienten for privat FoU i 2009 (logPrivRD_2009) er negativ og sterkt signifikant i begge modellene (-0.031 uten og -0.018 med landdummyer), i tråd med Table 2 i @fitjar2025 (-0.017 og -0.010). Regioner med lite privat FoU i 2009 har altså hatt raskere vekst frem til 2023. Effekten er sterkere hos oss enn hos fitjar, noe som kan skyldes den lengre perioden og det andre utvalget av land. Som hos Fitjar blir koeffisienten omtrent halvert når vi kontrollerer for land. En stor del av konvergensen skjer altså mellom land, for eksempel ved at Øst-Europa tar igjen Vest-Europa, men den er fortsatt signifikant innenfor land. Konvergensen er sterkere for privat enn for offentlig FoU, både hos oss og hos Fitjar.
 
 **Oppgave 16**
 
@@ -363,9 +365,10 @@ modelsummary::modelsummary(
 
 Resultatene våre viser det samme som Table 2 i @fitjar2025. Startnivået er negativt og signifikant i alle fire modellene, så det er konvergens både i offentlig og privat FoU: regioner med lite FoU i 2009 har hatt raskere vekst etterpå. Som hos Fitjar er konvergensen sterkete for privat enn for offentlig FoU når vi ikke kontrollerer for land (-0.031 mot -0.011 hos oss, -0.017 mot -0.006 hos Fitjar). Med landdummyer øker R\^2 kraftig i alle modellene, og for privat FoU blir koeffisienten omtrent halvert. Mye av konvergensen i privat FoU skjer altså mellom land, mens konvergensen i offentlig FoU blir sterkere når vi ser innenfor land.
 
-Det er likevel noen forskjeller. Koeffisientene våre er gjennomgående større enn Fitjars, slik at konvergensen ser ut til å være sterkere i våre data. Det kan skyldes at vi ser på en lengre periode (2009-2023 mot 2009-2018) og at utvalget av land og regioner er et annet, blant annet uten Storbritannia. Startsnivået forklarer også en mye større del av variasjonen i veksten i privat FoU hos oss (R\^2 = 0.52 mot 0.14). Fitjar rapporterer dessuten robuste standardfeil, mens vi bruker vanlige. Siden våre koeffisienter er svært signifikante, endrer dette trolig ikke konklusjonene. Samlet sett bekrefter analysen vår fitjars hovedfunn om konvergens iFoU mellom europeiske regioner.
+Det er likevel noen forskjeller. Koeffisientene våre er gjennomgående større enn Fitjars, slik at konvergensen ser ut til å være sterkere i våre data. Det kan skyldes at vi ser på en lengre periode (2009-2023 mot 2009-2018) og at utvalget av land og regioner er et annet, blant annet uten Storbritannia. Startsnivået forklarer også en mye større del av variasjonen i veksten i privat FoU hos oss (R\^2 = 0.52 mot 0.14). Fitjar rapporterer dessuten robuste standardfeil, mens vi bruker vanlige. Siden våre koeffisienter er svært signifikante, endrer dette trolig ikke konklusjonene. Samlet sett bekrefter analysen vår Fitjars hovedfunn om konvergens iFoU mellom europeiske regioner.
 
 **Oppgave 17**
+
 ```{r}
 eu_2009 <- eu0823 |>
   filter(time == "2009") |>
@@ -428,9 +431,7 @@ modelsummary::modelsummary(
 )
 ```
 
-
 Interaksjonen mellom offentlig FoU (log_pub_RD) og BNP per innbygger (log_GDP) tester om offentlig FoU påvirker veksten i privat FoU ulikt i fattige og rike regioner. Det henger direkte sammen med Fitjars problemstilling: Hvis offentlig FoU bare gir vekst i privat FoU i rike regioner, kan offentlig finansiering forsterke regionale forskjeller. En negativ interaksjon betyr at offentlig FoU har størst effekt i fattigere regioner og dermed kan bidra til utjevning. En positiv interaksjon betyr det motsatte.
-
 
 Her har jeg brukt mønsteret i Fitjars Table 5 for modell 1–4. Tabellen har ulike signifikansnivåer, så sammenligningen de faktiske p-grensene.
 
@@ -441,6 +442,7 @@ For kontrollvariablene er det flere forskjeller. Hos Fitjar har ikke regioner si
 Samlet sett bekrefter vi Fitjars hovedfunn om betinget konvergens, men forskjellene i kontrollvariablene viser at de underliggende sammenhengene ikke er like robuste. Dette kan skyldes den lengre perioden, et annet utvalg av land og forskjeller i hvordan variablene er målt.
 
 **Oppgave 18**
+
 ```{r}
 # Modell (3)
 sq_res <- residuals(c3)^2
@@ -451,10 +453,10 @@ lm(sq_res ~ fit + sq_fit) |>
   as_flextable()
 ```
 
-
 Vi har testet de tre modellene for vekst i privat FoU for heteroskedastisitet med Whites alternative test, der de kvadrerte residualene regresseres på predikerte verdier og predikerte verdier i andre. F-testen gir p-verdier på 0,12, 0,19 og 0,19, så vi kan ikke forkaste nullhypotesen om at variansen er konstant i noen av modellene. Vi beholder derfor antakelsen om homoskedastisitet. Fitjar bruker likevel robuste standardfeil, og det kan vi også gjøre som en kontroll, men vi forventer ikke at det endrer konklusjonene.
 
 **Oppgave 19**
+
 ```{r}
 modelsummary::modelsummary(
   list("(1)" = c1, "(2)" = c2, "(3)" = c3,
@@ -479,3 +481,8 @@ Det er likevel noen forskjeller fra Fitjars resultater. Vi finner generelt sterk
 
 Vi konkluderer derfor med at analysen i stor grad støtter Fitjars funn. Selv om regioner med lave FoU-investeringer opplever raskere vekst, betyr ikke dette nødvendigvis at de samlede regionale forskjellene blir mindre. Våre analyser viser beta-konvergens, men undersøker ikke direkte sigma-konvergens. Vi kan derfor ikke fastslå om den totale ulikheten mellom regionene har blitt redusert. Offentlig FoU-finansiering ser fortsatt ut til å være konsentrert i regioner med sterke forskningsmiljøer, og det er begrenset grunnlag for å si at den bidrar til regional utjevning.
 
+**Kunstig intelligens**
+
+KI er i denne oppgaven brukt til veiledning til hvordan å utføre oppgavene. KI typen som er brukt er Claude.
+
+https://claude.ai/chat/8bb1b847-1800-48c0-a4cc-3d2605faf9cd https://claude.ai/share/9e70576e-6796-4f4c-89c0-410b4201efcd https://claude.ai/share/bc89c446-d2d7-43e0-b09b-f17ac3c6ebb4
