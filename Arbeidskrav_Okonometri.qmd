@@ -234,7 +234,7 @@ Resultetene våre samsvarer godt med Table 1 i @fitjar2025b. Tabellene bruker ul
 
 **Oppgave 12**
 
-Residualplottet viser ingen tydelige tegn heteroskedastisitet. Spredningen av residualene ser omtrent lik ut over hele spennet av predikerte verdier og fallet i den røde linjen til høyre skyldes noen få obervasjoner. Den støttende regresjonen bekrefter dette: verken predikerte verdier eller predikerte verdier i andre er signifikante og F-testen gir p = 0.32. Vi har derfor ikke grunnlag for å si at modellen har heteroskedastisitet og robuste standardfeil er ikke strengt nødvendig. Siden dette er tverrsnittdata for regioner av svært ulik størrelse, kan det likevel være lurt å bruke robuste standardfeil som en kontroll. Endres ikke signifikansen, styrker det resultatene. 
+Residualplottet viser ingen tydelige tegn heteroskedastisitet. Spredningen av residualene ser omtrent lik ut over hele spennet av predikerte verdier og fallet i den røde linjen til høyre skyldes noen få obervasjoner. Den støttende regresjonen bekrefter dette: verken predikerte verdier eller predikerte verdier i andre er signifikante og F-testen gir p = 0.32. Vi har derfor ikke grunnlag for å si at modellen har heteroskedastisitet og robuste standardfeil er ikke strengt nødvendig. Siden dette er tverrsnittdata for regioner av svært ulik størrelse, kan det likevel være lurt å bruke robuste standardfeil som en kontroll. Endres ikke signifikansen, styrker det resultatene.
 
 **Oppgave 13**
 
@@ -257,13 +257,113 @@ eu_growth |>
   vtable::st(vars = "mDeltaPubRD")
 ```
 
-Vi beregner den årlige endringen i log offentlig FoU (pub_RD) for hver region med dplyr::lag() og tar gjennomsnittet over 2010-2023. Formelen i oppgaven viser en sum, men siden variabelen skal være et aritmetisk gjennomsnitt, deler vi på antall år (14). Gjennomsnittlig årlig vekst i offentlig FoU som andel av BNP er om lag 0.8 % for de 191 regionene. 
+Vi beregner den årlige endringen i log offentlig FoU (pub_RD) for hver region med dplyr::lag() og tar gjennomsnittet over 2010-2023. Formelen i oppgaven viser en sum, men siden variabelen skal være et aritmetisk gjennomsnitt, deler vi på antall år (14). Gjennomsnittlig årlig vekst i offentlig FoU som andel av BNP er om lag 0.8 % for de 191 regionene.
 
 **Oppgave 14**
 
+```{r}
+eu_conv <- eu0823 |>
+  filter(time == "2009") |>
+  transmute(geo, country, logPubRD_2009 = log(pub_RD)) |>
+  left_join(eu_growth, by = "geo")
+ 
+```
+
+```{r}
+m4 <- lm(mDeltaPubRD ~ logPubRD_2009, data = eu_conv)
+m5 <- lm(mDeltaPubRD ~ logPubRD_2009 + country, data = eu_conv)
+```
+
+```{r}
+
+#| label: tbl-conv
+
+#| tbl-cap: "Modell 4 og 5: vekst i offentlig FoU 2009–2023 og startnivå i 2009."
+
+modelsummary::modelsummary(
+
+  list("(4)" = m4, "(5)" = m5),
+
+  coef_omit = "country",
+
+  statistic = "({statistic})",
+
+  stars = TRUE,
+
+  gof_map = c("nobs", "r.squared", "adj.r.squared")
+
+)
+
+ 
+```
+
+Resultatene våre samsvarer med table 2 i @fitjar2025. Koeffsienten for offentlig FoU i 2009 (logPubRD_2009) er negativ og signifikan i begge modellene, bådehos oss og hos Fitjar. Det tyder på konvergens: regioner med lite offentlig FoU i startåret har hatt raskere vekst etterpå. Hos oss er effekten noe sterkere (-0.011 og -0.016 mot -0.006 og -0.010). Det kan skyldes at vi ser på en lengre periode (2009-2023 mot 2009-2018) og et annet utvalg av land. I begge tabellene blir koeffisienten mer negativ og R\^2 øker når vi kontrollerer for land. Det viser at konvergensen også skjer innenfor land. Konstantleddet er insignifikant hos oss, men positiv og signifikant hos Fitjar. Det spiller liten rolle for tolkningen.
+
 **Oppgave 15**
 
+```{r}
+eu_growth_priv <- eu0823 |>
+  mutate(year = as.numeric(time)) |>
+  arrange(geo, year) |>
+  group_by(geo) |>
+  mutate(dLogPrivRD = log(priv_RD) - dplyr::lag(log(priv_RD))) |>
+  filter(year >= 2010) |>
+  summarise(mDeltaPrivRD = mean(dLogPrivRD), .groups = "drop")
+```
+
+```{r}
+eu_conv_priv <- eu0823 |>
+  filter(time == "2009") |>
+  transmute(geo, country, logPrivRD_2009 = log(priv_RD)) |>
+  left_join(eu_growth_priv, by = "geo")
+ 
+m6 <- lm(mDeltaPrivRD ~ logPrivRD_2009, data = eu_conv_priv)
+m7 <- lm(mDeltaPrivRD ~ logPrivRD_2009 + country, data = eu_conv_priv)
+```
+
+```{r}
+
+#| label: tbl-conv-priv
+
+#| tbl-cap: "Vekst i privat FoU 2009–2023 og startnivå i 2009."
+
+modelsummary::modelsummary(
+
+  list("(6)" = m6, "(7)" = m7),
+
+  coef_omit = "country",
+
+  statistic = "({statistic})",
+
+  stars = TRUE,
+
+  gof_map = c("nobs", "r.squared", "adj.r.squared")
+
+)
+
+```
+
+For privat FoU finner vi også konvergens. Koeffisienten for privat FoU i 2009 (logPrivRD_2009) er negativ og sterkt signifikant i begge modellene (-0.031 uten og -0.018 med landdummyer), i tråd med Table 2 i @fitjar2025 (-0.017 og -0.010). Regioner med lite privat FoU i 2009 har altså hatt raskere vekst frem til 2023. Effekten er sterkere hos oss enn hos fitjar, noe som kan skyldes den lengre perioden og det andre utvalget av land. Som hos Fitjar blir koeffisienten omtrent hvlvert når vi kontrollerer for land. En stor del av konvergensen skjer altså mellom land, for eksempel ved at Øst-Europa tar igjen Vest-Europa, men den er fortsatt signifikant innenfor land. Konvergensen er sterkete for privat enn for offentlig FoU, både hos oss og hos Fitjar.
+
 **Oppgave 16**
+
+```{r}
+#| label: tbl-conv-all
+#| tbl-cap: "Konvergens i offentlig og privat FoU, 2009–2023."
+modelsummary::modelsummary(
+  list("Public" = m4, "Public FE" = m5,
+       "Business" = m6, "Business FE" = m7),
+  coef_omit = "country",
+  statistic = "({statistic})",
+  stars = TRUE,
+  gof_map = c("nobs", "r.squared"),
+  notes = "t-verdier i parentes. FE = med landdummyer."
+)
+```
+
+Resultatene våre viser det samme som Table 2 i @fitjar2025. Startnivået er negativt og signifikant i alle fire modellene, så det er konvergens både i offentlig og privat FoU: regioner med lite FoU i 2009 har hatt raskere vekst etterpå. Som hos Fitjar er konvergensen sterkete for privat enn for offentlig FoU når vi ikke kontrollerer for land (-0.031 mot -0.011 hos oss, -0.017 mot -0.006 hos Fitjar). Med landdummyer øker R\^2 kraftig i alle modellene, og for privat FoU blir koeffisienten omtrent halvert. Mye av konvergensen i privat FoU skjer altså mellom land, mens konvergensen i offentlig FoU blir sterkere når vi ser innenfor land.
+
+Det er likevel noen forskjeller. Koeffisientene våre er gjennomgående større enn Fitjars, slik at konvergensen ser ut til å være sterkere i våre data. Det kan skyldes at vi ser på en lengre periode (2009-2023 mot 2009-2018) og at utvalget av land og regioner er et annet, blant annet uten Storbritannia. Startsnivået forklarer også en mye større del av variasjonen i veksten i privat FoU hos oss (R\^2 = 0.52 mot 0.14). Fitjar rapporterer dessuten robuste standardfeil, mens vi bruker vanlige. Siden våre koeffisienter er svært signifikante, endrer dette trolig ikke konklusjonene. Samlet sett bekrefter analysen vår fitjars hovedfunn om konvergens iFoU mellom europeiske regioner.
 
 **Oppgave 17**
 
