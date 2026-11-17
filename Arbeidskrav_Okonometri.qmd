@@ -366,10 +366,116 @@ Resultatene våre viser det samme som Table 2 i @fitjar2025. Startnivået er neg
 Det er likevel noen forskjeller. Koeffisientene våre er gjennomgående større enn Fitjars, slik at konvergensen ser ut til å være sterkere i våre data. Det kan skyldes at vi ser på en lengre periode (2009-2023 mot 2009-2018) og at utvalget av land og regioner er et annet, blant annet uten Storbritannia. Startsnivået forklarer også en mye større del av variasjonen i veksten i privat FoU hos oss (R\^2 = 0.52 mot 0.14). Fitjar rapporterer dessuten robuste standardfeil, mens vi bruker vanlige. Siden våre koeffisienter er svært signifikante, endrer dette trolig ikke konklusjonene. Samlet sett bekrefter analysen vår fitjars hovedfunn om konvergens iFoU mellom europeiske regioner.
 
 **Oppgave 17**
+```{r}
+eu_2009 <- eu0823 |>
+  filter(time == "2009") |>
+  transmute(
+    geo,
+    country,
+    log_pub_RD = log(pub_RD),
+    log_priv_RD = log(priv_RD),
+    log_GDP = log(GDP),
+    Capital,
+    Manuf,
+    log_Dens = log(Density),
+    edu
+  ) |>
+  left_join(eu_growth, by = "geo") |>
+  left_join(eu_growth_priv, by = "geo")
+```
 
+```{r}
+# Modell 1: Vekst i offentlig FoU uten utdanning
+c1 <- lm(
+  mDeltaPubRD ~ log_pub_RD + log_priv_RD + log_GDP +
+    Capital + Manuf + log_Dens + country,
+  data = eu_2009
+)
+
+# Modell 2: Vekst i offentlig FoU med utdanning
+c2 <- update(c1, . ~ . + edu)
+
+# Modell 3: Vekst i privat FoU uten utdanning
+c3 <- lm(
+  mDeltaPrivRD ~ log_pub_RD + log_priv_RD + log_GDP +
+    Capital + Manuf + log_Dens + country,
+  data = eu_2009
+)
+
+# Modell 4: Vekst i privat FoU med utdanning
+c4 <- update(c3, . ~ . + edu)
+
+# Modell 5: Vekst i privat FoU med interaksjonsledd
+c5 <- update(c4, . ~ . + log_pub_RD:log_GDP)
+```
+
+```{r}
+#| label: tbl-cond-conv
+#| tbl-cap: "Betinget konvergens, årlig gjennomsnittlig vekst i FoU 2009–2023."
+
+modelsummary::modelsummary(
+  list(
+    "(1)" = c1,
+    "(2)" = c2,
+    "(3)" = c3,
+    "(4)" = c4,
+    "(5)" = c5
+  ),
+  coef_omit = "country",
+  statistic = "({statistic})",
+  stars = TRUE,
+  gof_map = c("nobs", "adj.r.squared", "logLik", "F")
+)
+```
+
+
+Interaksjonen mellom offentlig FoU (log_pub_RD) og BNP per innbygger (log_GDP) tester om offentlig FoU påvirker veksten i privat FoU ulikt i fattige og rike regioner. Det henger direkte sammen med Fitjars problemstilling: Hvis offentlig FoU bare gir vekst i privat FoU i rike regioner, kan offentlig finansiering forsterke regionale forskjeller. En negativ interaksjon betyr at offentlig FoU har størst effekt i fattigere regioner og dermed kan bidra til utjevning. En positiv interaksjon betyr det motsatte.
+
+
+Her har jeg brukt mønsteret i Fitjars Table 5 for modell 1–4. Tabellen har ulike signifikansnivåer, så sammenligningen de faktiske p-grensene.
+
+Hovedfunnet samsvarer med Table 3 i @fitjar2025: Når vi kontrollerer for andre regionale kjennetegn, er det fortsatt konvergens. Startnivået for offentlig FoU er negativt og signifikant for veksten i offentlig FoU, og startnivået for privat FoU er negativt og signifikant for veksten i privat FoU. Som hos Fitjar har offentlig FoU derimot ingen signifikant effekt, og interaksjonen er insignifikant. Vi finner altså at effekten av offentlig FoU på veksten i privat FoU avhenger av regionens inntektsnivå.
+
+For kontrollvariablene er det flere forskjeller. Hos Fitjar har ikke regioner signifikant lavere vekst i offentlig FoU, mens BNP er insignifikant hos oss. Befolkningstetthet og utdanningsnivå er positive og signifikante for veksten i offentlig FoU hos Fitjar, men ikke hos oss. For privat FoU er BNP positiv og signifikant i alle modellene hos oss, men bare i modell 3 hos Fitjar. Industrisysselsetting er positiv og signifikant for privat FoU hos Fitjar, men insignifikant hos oss, noe som henger sammen med at variabelen vår måles på ulike andre. Hovedstadsregioner er svakt negativ for privat FoU hos oss og insignifikant hos Fitjar.
+
+Samlet sett bekrefter vi Fitjars hovedfunn om betinget konvergens, men forskjellene i kontrollvariablene viser at de underliggende sammenhengene ikke er like robuste. Dette kan skyldes den lengre perioden, et annet utvalg av land og forskjeller i hvordan variablene er målt.
 
 **Oppgave 18**
+```{r}
+# Modell (3)
+sq_res <- residuals(c3)^2
+fit <- fitted(c3)
+sq_fit <- fit^2
+
+lm(sq_res ~ fit + sq_fit) |>
+  as_flextable()
+```
+
+
+Vi har testet de tre modellene for vekst i privat FoU for heteroskedastisitet med Whites alternative test, der de kvadrerte residualene regresseres på predikerte verdier og predikerte verdier i andre. F-testen gir p-verdier på 0,12, 0,19 og 0,19, så vi kan ikke forkaste nullhypotesen om at variansen er konstant i noen av modellene. Vi beholder derfor antakelsen om homoskedastisitet. Fitjar bruker likevel robuste standardfeil, og det kan vi også gjøre som en kontroll, men vi forventer ikke at det endrer konklusjonene.
 
 **Oppgave 19**
+```{r}
+modelsummary::modelsummary(
+  list("(1)" = c1, "(2)" = c2, "(3)" = c3,
+       "(4)" = c4, "(5)" = c5),
+  coef_omit = "country",
+  statistic = "({statistic})",
+  stars = TRUE,
+  vcov = "HC3",
+  gof_map = c("nobs", "adj.r.squared", "logLik", "F")
+)
+```
+
+Vi bytter til robuste standardfeil ved å legge til vcov = "HC3" i modelsummary(). Estimatene er de samme, men standardfeilene og t-verdiene endres. Konklusjonene endres i praksis ikke. Startnivået for offentlig og privat FoU er fortsatt negativt og signifikant, slik at vi fortsatt finner betinget konvergens, og BNP er fortsatt positivt og signifikant for veksten i privat FoU. De eneste endringene er små: Privat FoU i modell 2 går fra svakt signifikant til insignifikant, og noen signifikansnivåer flytter seg ett trinn. Dette stemmer med Whites test i forrige oppgave, som ikke fant tegn til heteroskedastisitet. Valget av standardfeil har derfor liten betydning her, men robuste standardfeil gjør resultatene mer sammenlignbare med Fitjar, som også bruker dem.
 
 **Oppgave 20**
+
+Det første forskningsspørsmålet handler om hvordan offentlige FoU-investeringer fordeles mellom europeiske regioner. Våre resultater viser at hovedstadsregioner og regioner med høyt utdanningsnivå har mer offentlig FoU. Når vi kontrollerer for disse faktorene, blir sammenhengen mellom BNP og offentlig FoU negativ. Dette samsvarer med Fitjars funn og tyder på at offentlig FoU i stor grad følger eksisterende forskningsmiljøer og kompetanse, fremfor å være direkte rettet mot økonomisk svakere regioner.
+
+Det andre forskningsspørsmålet handler om hvorvidt offentlige FoU-investeringer bidrar til å redusere regionale forskjeller over tid. Vi finner negativ og signifikant sammenheng mellom startnivået og senere vekst i både offentlig og privat FoU. Konvergensen er sterkest for privat FoU uten kontroll for land. Dette støtter Fitjars hovedfunn om beta-konvergens. Samtidig finner vi ingen tydelig signifikant sammenheng mellom offentlig FoU og veksten i privat FoU. Vi kan derfor ikke konkludere med at offentlige FoU-investeringer bidrar til å redusere forskjellene i privat FoU mellom regionene.
+
+Det er likevel noen forskjeller fra Fitjars resultater. Vi finner generelt sterkere konvergens, mens flere kontrollvariabler, blant annet industrisysselsetting og utdanningsnivå, har svakere betydning i våre modeller. Forskjellene kan skyldes at vårt datasett dekker perioden 2008–2023, mens Fitjar undersøker 2009–2018, og at utvalget av land og regioner er forskjellig. Bruk av robuste standardfeil endrer heller ikke hovedkonklusjonene våre.
+
+Vi konkluderer derfor med at analysen i stor grad støtter Fitjars funn. Selv om regioner med lave FoU-investeringer opplever raskere vekst, betyr ikke dette nødvendigvis at de samlede regionale forskjellene blir mindre. Våre analyser viser beta-konvergens, men undersøker ikke direkte sigma-konvergens. Vi kan derfor ikke fastslå om den totale ulikheten mellom regionene har blitt redusert. Offentlig FoU-finansiering ser fortsatt ut til å være konsentrert i regioner med sterke forskningsmiljøer, og det er begrenset grunnlag for å si at den bidrar til regional utjevning.
+
